@@ -37,7 +37,7 @@ fn get_num() -> u32 {
 
 pub fn get_build() -> Box<Build> {
     let num = get_num();
-    let build_file_string = fs::read_to_string("C:\\Users\\mdow8\\CLionProjects\\d_bot\\src\\utils\\builds.yaml").unwrap();
+    let build_file_string = fs::read_to_string("builds.yaml").unwrap();
     let mut b: Vec<Build> = serde_yaml::from_str(&build_file_string).unwrap();
     let index = usize::try_from(num).unwrap();
     let build = b.remove(index);

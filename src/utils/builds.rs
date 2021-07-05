@@ -23,7 +23,7 @@ impl Build {
             .iter_mut()
             .map(|x| add_newline(x))
             .collect::<Vec<&String>>();
-        message.push_str("Here's your build!\n");
+        message.push_str("Here's your build!\n\n");
         for item in items {
             message.push_str(item);
         }

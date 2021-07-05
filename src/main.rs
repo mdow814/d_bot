@@ -13,7 +13,6 @@ use serenity::framework::standard::{
     }
 };
 
-
 #[group]
 #[commands(ping, build)]
 struct General;

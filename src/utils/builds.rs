@@ -3,7 +3,6 @@ use serde::{Serialize, Deserialize};
 use rand::Rng;
 use std::convert::TryFrom;
 
-
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Build {
     item1: String,
@@ -15,7 +14,6 @@ pub struct Build {
 }
 
 impl Build {
-
     pub fn get_items(self) -> String {
         let message = format!(
             "Here's your build!\n\n{}\n{}\n{}\n{}\n{}\n{}\n",
@@ -30,15 +28,15 @@ impl Build {
     }
 }
 
-fn get_num() -> u32 {
+fn get_num(limit: u32) -> u32 {
     let mut rng = rand::thread_rng();
-    rng.gen_range(0..150)
+    rng.gen_range(0..limit)
 }
 
 pub fn get_build() -> Box<Build> {
-    let num = get_num();
-    let build_file_string = fs::read_to_string("builds.yaml").unwrap();
+    let build_file_string = fs::read_to_string("/opt/discordbot/builds.yaml").unwrap();
     let mut b: Vec<Build> = serde_yaml::from_str(&build_file_string).unwrap();
+    let num = get_num((b.len() as u32) / 6);
     let index = usize::try_from(num).unwrap();
     let build = b.remove(index);
     Box::from(build)

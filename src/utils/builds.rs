@@ -2,6 +2,7 @@ use std::fs;
 use serde::{Serialize, Deserialize};
 use rand::Rng;
 use std::convert::TryFrom;
+use std::env;
 
 type Items = Vec<String>;
 
@@ -41,7 +42,8 @@ fn get_num(limit: u32) -> u32 {
 }
 
 pub fn get_build() -> Box<Build> {
-    let build_file_string = fs::read_to_string("builds.yaml").unwrap();
+    let path = env::var("BUILDS").expect("token");
+    let build_file_string = fs::read_to_string(path).unwrap();
     let mut build_list: Builds = serde_yaml::from_str(&build_file_string).unwrap();
     let num = get_num(build_list.builds.len() as u32);
     let index = usize::try_from(num).unwrap();

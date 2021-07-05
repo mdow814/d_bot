@@ -3,29 +3,36 @@ use serde::{Serialize, Deserialize};
 use rand::Rng;
 use std::convert::TryFrom;
 
+type Items = Vec<String>;
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Build {
-    item1: String,
-    item2: String,
-    item3: String,
-    item4: String,
-    item5: String,
-    item6: String,
+    items: Items
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Builds {
+    builds: Vec<Build>
 }
 
 impl Build {
-    pub fn get_items(self) -> String {
-        let message = format!(
-            "Here's your build!\n\n{}\n{}\n{}\n{}\n{}\n{}\n",
-            self.item1,
-            self.item2,
-            self.item3,
-            self.item4,
-            self.item5,
-            self.item6,
-        );
+    pub fn get_items(&mut self) -> String {
+        let mut message = String::new();
+        let items = self.items
+            .iter_mut()
+            .map(|x| add_newline(x))
+            .collect::<Vec<&String>>();
+        message.push_str("Here's your build!\n");
+        for item in items {
+            message.push_str(item);
+        }
         message
     }
+}
+
+fn add_newline(text: &mut String) -> &String {
+    text.push_str("\n");
+    text
 }
 
 fn get_num(limit: u32) -> u32 {
@@ -34,11 +41,11 @@ fn get_num(limit: u32) -> u32 {
 }
 
 pub fn get_build() -> Box<Build> {
-    let build_file_string = fs::read_to_string("/opt/discordbot/builds.yaml").unwrap();
-    let mut b: Vec<Build> = serde_yaml::from_str(&build_file_string).unwrap();
-    let num = get_num((b.len() as u32) / 6);
+    let build_file_string = fs::read_to_string("builds.yaml").unwrap();
+    let mut build_list: Builds = serde_yaml::from_str(&build_file_string).unwrap();
+    let num = get_num(build_list.builds.len() as u32);
     let index = usize::try_from(num).unwrap();
-    let build = b.remove(index);
+    let build = build_list.builds.remove(index);
     Box::from(build)
 }
 

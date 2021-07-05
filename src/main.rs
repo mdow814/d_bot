@@ -49,7 +49,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn build(ctx: &Context, msg: &Message) -> CommandResult {
-    let build = utils::builds::get_build();
+    let mut build = utils::builds::get_build();
     let message = build.get_items();
     msg.reply(ctx, message).await?;
 

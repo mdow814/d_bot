@@ -13,6 +13,7 @@ use serenity::framework::standard::{
     }
 };
 
+
 #[group]
 #[commands(ping, build)]
 struct General;
@@ -35,8 +36,9 @@ async fn main() {
         .await
         .expect("Error creating client");
 
-    if let Err(why) = client.start().await {
-        println!("An error occurred while running the client: {:?}", why);
+    match client.start().await {
+        Ok(_)    => println!("Started client successfully"),
+        Err(why) => println!("Could not start the client: {:?}", why)
     }
 }
 

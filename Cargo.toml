@@ -11,3 +11,4 @@ tokio = { version = "1.8.0", features = ["full"] }
 serde_yaml = "0.8.17"
 serde = "1.0.126"
 rand = "0.8.4"
+simple_logger = "1.11.0"

@@ -57,3 +57,10 @@ async fn build(ctx: &Context, msg: &Message) -> CommandResult {
 
     Ok(())
 }
+
+#[command]
+async fn game(ctx: &Context, msg: &Message) -> CommandResult {
+    let game = utils::games::get_game();
+    msg.reply(ctx, game).await?;
+    Ok(())
+}

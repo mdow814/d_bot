@@ -15,7 +15,7 @@ use serenity::framework::standard::{
 
 
 #[group]
-#[commands(ping, build)]
+#[commands(ping, build, game)]
 struct General;
 
 struct Handler;
